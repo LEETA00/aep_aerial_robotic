@@ -1,0 +1,22 @@
+Dead reckoning (DR) for aerial vehicles is a navigation method that estimates a vehicle's current position by starting from a known position and integrating its motion over time, without relying on external references like GPS.
+
+How it works
+1. Start with a known position (x₀, y₀, z₀) and heading.
+2. Measure velocity and direction continuously, then integrate: position = previous position + velocity × time.
+3. Typical sensors: IMU (accelerometer and gyroscope), magnetometer for heading, barometer for altitude, and airspeed sensor or optical flow for velocity.
+
+Advantages
+1. Self-contained and works in GPS-denied or jammed environments (indoors, under canopy, contested airspace).
+2. High update rate and low latency.
+3. Cheap and simple to implement.
+
+Limitations
+1. Drift: Small sensor biases and noise accumulate. Double-integrating accelerometer data makes position error grow roughly with t² or worse.
+2. Errors from wind, gyro bias, and magnetometer interference compound over time.
+3. Accuracy degrades the longer the vehicle flies without a correction.
+
+Mitigation: sensor fusion
+DR is rarely used alone. A Kalman filter (EKF or UKF) fuses it with GPS, visual odometry, LiDAR, or barometric data. When GPS is available, it corrects drift; when lost, DR bridges the gap. This is the core idea behind inertial navigation systems (INS) and GPS/INS integration.
+
+Applications
+UAV and drone navigation during GPS loss, missile and aircraft inertial guidance, indoor drone flight, and failsafe return-to-home modes.
